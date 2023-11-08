@@ -1,0 +1,336 @@
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+
+void main()
+{
+	int x1, y1, x2, y2, dx, dy, len, i;
+	float x, y, xinc, yinc;
+	int gd=DETECT, gm;
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\\BGI");
+	printf("Enter start coordinates: ");
+	scanf("%d%d", &x1, &y1);
+	printf("Enter end coordinates: ");
+	scanf("%d%d", &x2, &y2);
+
+	dx=x2-x1;
+	dy=y2-y1;
+
+	if(abs(dx)>abs(dy))
+	{
+		len=abs(dx);
+	}
+	else
+	{
+		len=abs(dy);
+	}
+
+	xinc=dx/len;
+	yinc=dy/len;
+	x=x1;
+	y=y1;
+
+	for(i=0; i<=len; i++)
+	{
+		putpixel(x, y, RED);
+		x=x+xinc;
+		y=y+yinc;
+	}
+	getch();
+	closegraph();
+}
+2)Line Drawing using Bresinhans Algo
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+
+void drawline(int x1, int y1, int x2, int y2)
+{
+    int p, x, y, dx, dy;
+    dx=x2-x1;
+    dy=y2-y1;
+    x=x1;
+    y=y1;
+    p=(2*dy)-dx;
+
+    while(x<x2)
+	{
+        	if(p>=0)
+		{
+			putpixel(x, y, RED);
+			p=p+(2*(dy-dx));
+        		y=y+1;
+       		}
+       		else
+		{
+			putpixel(x, y, RED);
+			p=p+(2*dy);
+        		y=y;
+		}
+		x=x+1;
+	}
+}
+
+int main()
+{
+	int gd=DETECT, gm, x1, x2, y1, y2;
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\\BGI");
+	printf("Enter start coordinates: ");
+	scanf("%d%d", &x1, &y1);
+	printf("Enter end coordinates: ");
+	scanf("%d%d", &x2, &y2);
+	drawline(x1, y1, x2, y2);
+	getch();
+	closegraph();
+	return 0;
+}
+
+3)Circle Drawing Algo
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+
+void main()
+{
+	int x, y, xk, yk, r, dp;
+	int gd=DETECT, gm;
+	clrscr();
+
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\\BGI");
+	printf("Enter the coordinates of centre of circle: ");
+	scanf("%d, %d", &xk, &yk);
+	printf("Enter the radius of the circle: ");
+	scanf("%d", &r);
+
+	x=0;
+	y=r;
+	dp=1-r;
+
+	do
+	{
+		putpixel(xk+x, yk+y, 7);
+		putpixel(xk+y, yk+x, 7);
+		putpixel(xk+y, yk-x, 7);
+		putpixel(xk+x, yk-y, 7);
+		putpixel(xk-x, yk-y, 7);
+		putpixel(xk-y, yk-x, 7);
+		putpixel(xk-y, yk+x, 7);
+		putpixel(xk-x, yk+y, 7);
+
+		if(dp<0)
+		{
+			dp=dp+(2*x)+1;
+		}
+		else
+		{
+		y+=-1;
+		dp=dp+(2*x)-(2*y)+1;
+		}
+		x+=1;
+	}
+
+	while(y>x);
+	getch();
+	closegraph();
+}
+
+4)Ellipse Drawing Algo
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+
+void main()
+{
+	long x, y, xk, yk, dx, dy, d, a, b;
+	int gd=DETECT, gm;
+	clrscr();
+
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\\BGI");
+	printf("Enter the coordinates of centre of ellipse: ");
+	scanf("%ld, %ld", &xk, &yk);
+	printf("Enter the minor and major radii of the ellipse: ");
+	scanf("%ld, %ld", &a, &b);
+
+	x=0;
+	y=b;
+	dx=2*b*b*x;
+	dy=2*a*a*y;
+	d=(b*b)-(a*a*b)+(0.25*a*a);
+
+	do
+	{
+		putpixel(xk+x, yk+y, RED);
+		putpixel(xk-x, yk-y, RED);
+		putpixel(xk+x, yk-y, RED);
+		putpixel(xk-x, yk+y, RED);
+
+		if(d<0)
+		{
+			d=d+dx+(b*b);
+		}
+		else
+		{
+			y-=1;
+			d=d+dx-dy+(b*b);
+			dy=dy-(2*a*a);
+		}
+		x+=1;
+		dx=dx+(2*b*b);
+		delay(10);
+	}
+	while(dx<dy);
+
+	d=((b*b)*(x+0.5)*(x+0.5))+((a*a)*(y-1)*(y-1))-(a*a*b*b);
+	do
+	{
+		putpixel(xk+x, yk+y, RED);
+		putpixel(xk-x, yk-y, RED);
+		putpixel(xk+x, yk-y, RED);
+		putpixel(xk-x, yk+y, RED);
+
+		if(d>=0)
+		{
+			d=d-dy+(a*a);
+		}
+		else
+		{
+			x+=1;
+			d=d+dx-dy+(a*a);
+			dx+=(2*b*b);
+		}
+		y-=1;
+		dy=dy-(2*a*a);
+	}
+	while(y>0);
+	getch();
+	closegraph();
+}
+
+5)Character Generation Algo
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+
+int main()
+{
+	int x[8][8]=
+	{
+			{1,0,0,0,0,0,0,1},
+			{0,1,0,0,0,0,1,0},
+			{0,0,1,0,0,1,0,0},
+			{0,0,0,1,1,0,0,0},
+			{0,0,0,1,1,0,0,0},
+			{0,0,1,0,0,1,0,0},
+			{0,1,0,0,0,0,1,0},
+			{1,0,0,0,0,0,0,1}
+	};
+	int y[8][8]=
+	{
+			{1,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,1},
+			{1,1,1,1,1,1,1,1},
+			{0,0,0,0,0,0,0,1},
+			{0,0,0,0,0,0,0,1},
+			{0,0,0,0,0,0,0,1},
+			{1,1,1,1,1,1,1,1}
+	};
+	int z[8][8]=
+	{
+			{1,1,1,1,1,1,1,1},
+			{0,0,0,0,0,0,1,0},
+			{0,0,0,0,0,1,0,0},
+			{0,0,0,0,1,0,0,0},
+			{0,0,0,1,0,0,0,0},
+			{0,0,1,0,0,0,0,0},
+			{0,1,0,0,0,0,0,0},
+			{1,1,1,1,1,1,1,1}
+	};
+
+	int gd=DETECT, gm, i, j, k, l, m, n;
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\\BGI");
+	for(i=0; i<8; i++)
+	{
+		for(j=0; j<8; j++)
+		{
+			putpixel(200+j, 200+i, 5*x[i][j]);
+		}
+	}
+	for(k=0; k<8; k++)
+	{
+		for(l=0; l<8; l++)
+		{
+			putpixel(210+l, 200+k, 5*y[k][l]);
+		}
+	}
+	for(m=0; m<8; m++)
+	{
+		for(n=0; n<8; n++)
+		{
+			putpixel(220+n, 200+m, 5*z[m][n]);
+		}
+	}
+	getch();
+	closegraph();
+	return 0;
+}
+
+6)Polygon filling using flood fill
+#include<stdio.h>
+#include<graphics.h>
+
+void floodFill(int x, int y, int newcol, int oldcol);
+int main()
+{
+	int gd=DETECT, gm;
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\BGI");
+	int top, bot, left, right;
+	top=left=50;
+	bot=right=250;
+	rectangle(left, top, right, bot);
+	int x=51, y=51;
+	floodFill(x, y, RED, CYAN);
+	getch();
+	closegraph();
+	return 0;
+}
+
+void floodFill(int x, int y, int newcol, int oldcol)
+{
+	if(getpixel(x, y)==oldcol)
+	{
+		putpixel(x, y, newcol);
+		floodFill(x+1, y, newcol, oldcol);
+		floodFill(x, y+1, newcol, oldcol);
+		floodFill(x-1, y, newcol, oldcol);
+		floodFill(x, y-1, newcol, oldcol);
+	}
+}
+
+7) Polygon filling using Boundary fill
+#include<stdio.h>
+#include<graphics.h>
+
+void boundFill(int x, int y, int fillcol, int boundcol);
+int main()
+{
+	int gd=DETECT, gm;
+	initgraph(&gd, &gm, "C:\\TURBOC3\\BIN\BGI");
+	circle(300, 300, 100);
+	boundFill(301, 301, RED, WHITE);
+	delay(10000);
+	getch();
+	closegraph();
+	return 0;
+}
+
+void boundFill(int x, int y, int fillcol, int boundcol)
+{
+	if(getpixel(x, y)!=boundcol && getpixel(x, y)!=fillcol)
+	{
+		putpixel(x, y, fillcol);
+		boundFill(x+1, y, fillcol, boundcol);
+		boundFill(x, y+1, fillcol, boundcol);
+		boundFill(x-1, y, fillcol, boundcol);
+		boundFill(x, y-1, fillcol, boundcol);
+
